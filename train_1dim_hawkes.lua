@@ -1,5 +1,32 @@
 function train_1dim_hawkes(hdim, dt0, step_reduction)
 
+--[[
+A self-exciting event is something where one occurence of an event is more likely 
+to trigger repeated occurences of that same event. For example, an event like an earthquake is likely 
+to trigger succesive earthquake (aftershocks). Events of this nature are known as a Hawkes Process
+
+This function trains recurrent neural network (RNN) to learn the elasped time between event 
+occurences, known as inter-arrival times, in a Hawkes Process using statiscially 
+simulated data for training.
+
+Validation for the network is computed by comparing the error of the predicted inter-arrival times
+to the average inter-arrival. The relative error (or error relative to the average) can be seen 
+as a percentage improvement over using the average inter-arrival time to predict event occurences
+
+INPUTS
+
+dim -- 				A table denoting the dimensions of the weights for each layer of,
+					the network. The number of entries in the table (#dim) will determine
+					the number of layers in the network
+
+dt0 --				The initial learning rate for the gradient descent algorithm
+
+step_reduction -- 	When learning shows no improvment over several epochs, the learning rate is 
+					mulitplied by this number to improve learning
+					note: The stopping criteria of the training process is triggered once the 
+					learning rate is reduced in size to a certain threshold
+]]
+
 require 'nn'
 require 'nngraph'
 require 'xlua'
@@ -169,13 +196,13 @@ while dt0>.001 do
 			dt0 = step_reduction*dt0
 		print(' ---------- Step size updated to ' .. dt0 .. '------------')
 		end
-		print('iteration = ' .. i .. '  \tError Relative to the Average =  ' .. relative_error .. ' \tModel error = ' .. model_error)
+		print('Error Relative to the Average =  ' .. relative_error .. ' \tAbsolute Error = ' .. model_error)
 	end
 
 end 
 local final = torch.mean(history_old)
 print('\n---------- Final Results ----------')
-print('iteration = ' .. i .. '  \tError Relative to the Average =  ' .. relative_error .. ' \tModel error = ' .. model_error .. '\tAverage = '.. final)
+print('Total Epochs \t\t\t= ' .. i .. '  \nError Relative to the Average \t=  ' .. relative_error .. ' \nAbsolute error \t\t\t= ' .. model_error )
 return relative_error, model_error, final 
 
 end
