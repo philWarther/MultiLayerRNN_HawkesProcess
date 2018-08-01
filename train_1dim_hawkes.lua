@@ -16,15 +16,15 @@ as a percentage improvement over using the average inter-arrival time to predict
 INPUTS
 
 dim -- 				A table denoting the dimensions of the weights for each layer of,
-					the network. The number of entries in the table (#dim) will determine
-					the number of layers in the network
+				the network. The number of entries in the table (#dim) will determine
+				the number of layers in the network
 
 dt0 --				The initial learning rate for the gradient descent algorithm
 
-step_reduction -- 	When learning shows no improvment over several epochs, the learning rate is 
-					mulitplied by this number to improve learning
-					note: The stopping criteria of the training process is triggered once the 
-					learning rate is reduced in size to a certain threshold
+step_reduction -- 		When learning shows no improvment over several epochs, the learning rate is 
+				mulitplied by this number to improve learning
+				note: The stopping criteria of the training process is triggered once the 
+				learning rate is reduced in size to a certain threshold
 ]]
 
 require 'nn'
@@ -47,7 +47,7 @@ lambda0 		= torch.ones(dim):fill(2.0)--uniform(alpha[1] + epsilon, alpha[1] + 5)
 
 -- Initializing Tables
 model 				= {}
-model_table 	 	= {}
+model_table 	 		= {}
 
 xdim				= 1			-- Dimension of the input vector, x
 event_count			= 100			-- Length of the data sequence
